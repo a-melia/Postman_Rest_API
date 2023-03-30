@@ -1,0 +1,280 @@
+{
+	"info": {
+		"_postman_id": "29df3343-607e-4500-bd2c-cd33396bddef",
+		"name": "Self trainig Postman GET POST PUT PATCH DEL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pobranie wszystkich postów",
+			"_postman_id": "ac6c8f87-18d3-4a64-bd69-39168eafa533",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://{{host}}:3000/posts"
+			},
+			"response": []
+		},
+		{
+			"name": "Pobranie wybranego posta",
+			"_postman_id": "d9c7520f-e989-4435-8bb4-827c53fbb7a6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://{{host}}:3000/posts/17"
+			},
+			"response": []
+		},
+		{
+			"name": "Filtrowanie postów",
+			"_postman_id": "ad91ccfc-82c2-4aa9-8557-d1ed70a52f1c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:3000/posts?title=json-server&id=33",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"posts"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "json-server",
+							"description": "klucz 'title', wartość 'json-server' ale moze byc tez json-server2"
+						},
+						{
+							"key": "id",
+							"value": "33"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dodawanie posta",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check author - Snippet Json value check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.author).to.eql(pm.environment.get(\"randomName\"))\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check title\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(pm.globals.get(\"titleAmeli\"))\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"id": "dc201eb0-4993-4c21-a276-6dc5201e2917"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"randomName\", pm.variables.replaceIn('{{$randomFullName}}'));"
+						],
+						"type": "text/javascript",
+						"id": "783ddd03-6007-42e9-9958-a060e5bd9d42"
+					}
+				}
+			],
+			"_postman_id": "95a6642d-1d93-4568-8cd7-5a7d29640763",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"title\": \"{{titleAmeli}}\",\r\n        \"author\": \"{{randomName}}\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{host}}:3000/posts"
+			},
+			"response": []
+		},
+		{
+			"name": "Aktualizacja całego posta",
+			"_postman_id": "8e39a9cb-8f9e-4b9d-9711-df68b05dafe1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"title\": \"wiza\",\r\n        \"author\": \"typicode2\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{host}}:3000/posts/28"
+			},
+			"response": []
+		},
+		{
+			"name": "Aktualizacja części posta PATCH",
+			"_postman_id": "af81edfa-3275-4d04-8092-fbc4d57c664f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"title\": \"edzia\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{host}}:3000/posts/25"
+			},
+			"response": []
+		},
+		{
+			"name": "Dodawanie posta do usuniecia",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check author - Snippet Json value check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.author).to.eql(pm.environment.get(\"randomName\"))\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check title\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(pm.globals.get(\"titleAmeli\"))\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"iddelete\"))\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "bb2319f1-c5d2-4ea2-9bb1-86a9d70d1874"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"iddelete\", pm.variables.replaceIn('{{$randomInt}}'));\r",
+							""
+						],
+						"type": "text/javascript",
+						"id": "5aac0f3e-9e78-4b2e-9666-745958dca10a"
+					}
+				}
+			],
+			"_postman_id": "f36baa87-be1a-499d-bb14-968552882a8a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": \"{{iddelete}}\",\r\n        \"title\": \"{{titleAmeli}}\",\r\n        \"author\": \"{{randomName}}\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{host}}:3000/posts"
+			},
+			"response": []
+		},
+		{
+			"name": "Usuwanie posta",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.variables.get(\"iddelete\");"
+						],
+						"type": "text/javascript",
+						"id": "76370e48-616c-42e7-b6e9-58e1af456d57"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "a0237599-cf40-423d-abc8-1708c89e8d49"
+					}
+				}
+			],
+			"_postman_id": "91a241e2-69fd-46ec-adf5-e0f55d4f84f9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"id\": \"{{iddelete}}\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{host}}:3000/posts/{{iddelete}}"
+			},
+			"response": []
+		}
+	]
+}
